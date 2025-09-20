@@ -1,0 +1,56 @@
+# Mobile-Friendly AI Chatbot
+
+# Dictionary of predefined responses
+responses = {
+    "hi": "Hello! How can I help you today?",
+    "hello": "Hi there! What can I do for you?",
+    "hey": "Hey! How's it going?",
+    "how are you": "I'm a bot, but I'm doing great! How about you?",
+    "what is your name": "I am your AI Chatbot 🤖",
+    "who created you": "Abdul Rahman",
+    "quit": "Goodbye! Have a nice day! 👋"
+}
+
+# Memory to store user info
+user_name = None
+
+def chatbot():
+    global user_name
+    print("Hi! I am your AI Chatbot. Type 'quit' to exit.")
+    
+    while True:
+        user_input = input("You: ").lower().strip()
+        
+        if user_input == "quit":
+            print("Bot:", responses["quit"])
+            break
+        
+        # Remember user's name
+        if "my name is" in user_input:
+            user_name = user_input.replace("my name is", "").strip().title()
+            print(f"Bot: Nice to meet you, {user_name}!")
+            continue
+        
+        # Basic calculator functionality
+        if any(op in user_input for op in ["+", "-", "*", "/", "^"]):
+            try:
+                # Replace ^ with ** for power
+                calc_input = user_input.replace("^", "**")
+                result = eval(calc_input)
+                print(f"Bot: The answer is {result}")
+                continue
+            except:
+                print("Bot: Sorry, I couldn't calculate that. Check your input.")
+                continue
+        
+        # Greet user with their name if known
+        if user_name and user_input in ["hi", "hello", "hey"]:
+            print(f"Bot: Hello {user_name}! How can I help you today?")
+            continue
+        
+        # Default responses
+        response = responses.get(user_input, "Sorry, I don't understand that. Can you rephrase?")
+        print("Bot:", response)
+
+# Run the chatbot
+chatbot()
